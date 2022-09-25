@@ -71,5 +71,12 @@ button {
     justify-content: center;
 }
 .hidden {
-display: none;
+    display: none;
 }
+.lightpurple {
+    background: #805acc; 
+    color: white;
+    margin: 5px;
+    border-radius: 10px;
+}
+
