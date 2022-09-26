@@ -1,3 +1,4 @@
+//Select needed parts of the html dom
 var btnstart = document.querySelector("#btnstart");
 var btn1 = document.querySelector("#btn1");
 var btn2 = document.querySelector("#btn2");
@@ -8,48 +9,48 @@ var btnclear = document.querySelector("#btnclear");
 var endplay = document.querySelector("#end");
 var title = document.querySelector("#question");
 var result = document.querySelector("#result");
-var answer = 0;
-
 var codepart = document.querySelector("#codepart");
 var timedisplay = document.getElementById("timedisplay");
+
+//variables need to get out of global and into local scope
+var answer = 0;
 var secondsLeft = 120;
 var gameplaystatus = "start";
 var randomquestionarray = [];
 var playcount = -1;
+var finalscore = 0;
 
-//array needed to store text entered in textboxes
-var textEntered = localStorage.getItem("textEntered") || [];
-
+//function to create an array of random numbers for the random number of questions
 function randomquestionselected() {
-
     while (randomquestionarray.length < 5) {
-        var randomnumber = Math.floor(Math.random() * 50) + 1;
+        var randomnumber = Math.floor(Math.random() * 5);
         if(randomquestionarray.indexOf(randomnumber) === -1) randomquestionarray.push(randomnumber);
     }
-    console.log(randomquestionarray);
+    
+}
+//function to start the timer
+function setTime() {
+    // Sets interval in variable
+    var timerInterval = setInterval(function() {
+    secondsLeft--;
+    timedisplay.textContent = secondsLeft;
+
+    if(secondsLeft < 1) {
+        // Stops execution of action at set interval
+        clearInterval(timerInterval);
+    }
+    }, 1000);
 }
 
-    function setTime() {
-        // Sets interval in variable
-        var timerInterval = setInterval(function() {
-        secondsLeft--;
-        timedisplay.textContent = secondsLeft;
-    
-        if(secondsLeft < 1) {
-            // Stops execution of action at set interval
-            clearInterval(timerInterval);
-        }
-        }, 1000);
-    }
-
+//make the buttons active and able to function
 document.querySelector("#btnstart").addEventListener("click", function(event) {
     event.preventDefault();
     timedisplay.textContent = secondsLeft;
     setTime();
     gamePlay();
     btnstart.setAttribute("class", "hidden");
+    codepart.setAttribute("class", "lightgray");
 });
-
 document.querySelector("#btn1").addEventListener("click", function(event) {
     event.preventDefault();
     if (answer == 1) {
@@ -58,9 +59,8 @@ document.querySelector("#btn1").addEventListener("click", function(event) {
         result.textContent = "Wrong"
         timedisplay.textContent = secondsLeft - 10;
     }
-    result.setAttribute("class", "");
+    result.setAttribute("class", "border-top");
     gamePlay();
-
 });
 document.querySelector("#btn2").addEventListener("click", function(event) {
     event.preventDefault();
@@ -70,7 +70,7 @@ document.querySelector("#btn2").addEventListener("click", function(event) {
         result.textContent = "Wrong"
         timedisplay.textContent = secondsLeft - 10;
     }
-    result.setAttribute("class", "");
+    result.setAttribute("class", "border-top");
     gamePlay();
 });
 document.querySelector("#btn3").addEventListener("click", function(event) {
@@ -81,7 +81,7 @@ document.querySelector("#btn3").addEventListener("click", function(event) {
         result.textContent = "Wrong"
         timedisplay.textContent = secondsLeft - 10;
     }
-    result.setAttribute("class", "");
+    result.setAttribute("class", "border-top");
     gamePlay();
 });
 document.querySelector("#btn4").addEventListener("click", function(event) {
@@ -92,29 +92,30 @@ document.querySelector("#btn4").addEventListener("click", function(event) {
         result.textContent = "Wrong"
         timedisplay.textContent = secondsLeft - 10;
     }
-    result.setAttribute("class", "");
+    result.setAttribute("class", "border-top");
     gamePlay();
 });
 document.querySelector("#btnSubmit").addEventListener("click", function(event) {
     event.preventDefault();
-    // secondsLeft = 120;
-    // playcount = -1;
-    // timedisplay.textContent = secondsLeft;
-    // setTime();
     btnstart.setAttribute("class", "hidden");
     endplay.setAttribute("class", "hidden");
     
-    textEntered = textEntered.push(secondsLeft + " - " + document.querySelector(`#scoreresult`).value);
+    //array needed to store text entered in textboxes
+    let textEntered = JSON.parse(localStorage.getItem("textEntered")) || [];
+    //set initials and score to local storage.
+    textEntered.push(finalscore + " - " + document.querySelector(`#scoreresult`).value);
     localStorage.setItem("textEntered", JSON.stringify(textEntered));
-
+    
+    //set time to 0. If used 0 it would display 1.
+    secondsLeft = 1;
     window.location.href = "./highscore.html";
 });
 
+//this is what runs the game.
 function gamePlay(){
-
     playcount++;
     randomquestionselected();
-    if (playcount + 1 < randomquestionarray.length) {
+    if (playcount + 1 <= randomquestionarray.length && secondsLeft > 0) {
 
         title.textContent = randomquestionlist[randomquestionarray[playcount]][0];
         codepart.textContent = randomquestionlist[randomquestionarray[playcount]][1];
@@ -132,6 +133,7 @@ function gamePlay(){
         answer = randomquestionlist[randomquestionarray[playcount]][6];
         console.log(answer);
     } else {
+        finalscore = secondsLeft;
         randomquestionarray = [];
         endplay.setAttribute("class", "");
         title.textContent = `All done!`;
@@ -141,7 +143,7 @@ function gamePlay(){
         btn2.setAttribute("class", "hidden");
         btn3.setAttribute("class", "hidden");
         btn4.setAttribute("class", "hidden");
-        secondsLeft = 1;
+
     }
 }
 //   btnsave.setAttribute("id", "btn1");

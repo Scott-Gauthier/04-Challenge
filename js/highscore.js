@@ -1,7 +1,8 @@
 var scores = document.querySelector("#scores");
+var title  = document.querySelector("#title");
 
 //array needed to store text entered in textboxes
-var textEntered = localStorage.getItem("textEntered") || ['a','b','c','d'];
+let textEntered = JSON.parse(localStorage.getItem("textEntered")) || [];
 
 document.querySelector("#btnback").addEventListener("click", function(event) {
     event.preventDefault();
@@ -9,7 +10,14 @@ document.querySelector("#btnback").addEventListener("click", function(event) {
 });
 document.querySelector("#btnclear").addEventListener("click", function(event) {
     event.preventDefault();
-    highscore.textContent = "Not a test";
+
+    localStorage.clear();
+    function removeAllChildNodes(parent) {
+        while (parent.firstChild) {
+            parent.removeChild(parent.firstChild);
+          }
+        }
+    removeAllChildNodes(scores);
 });
 
 for (let i=0; i < textEntered.length; i++) {
@@ -18,5 +26,6 @@ for (let i=0; i < textEntered.length; i++) {
     section.setAttribute("id", i);
     section.setAttribute("class", "lightpurple");
     section.textContent = i+1 + ". " + textEntered[i];
+    console.log(textEntered[i]);
 }
 

@@ -10,18 +10,6 @@ header {
     color: #160404;
     margin-top: 20px;
 }
-main {
-    display: inline-flex;
-    flex-direction: row;
-    flex-flow: row wrap;
-    flex-wrap: wrap;
-    align-items: stretch;
-    height: 100%;
-    width: 100%;
-    font-size: 16px;
-    color: #160404;
-    margin-top: 20px;
-}
 .header-left {
     width: 20%;
     justify-content: left;
@@ -39,10 +27,22 @@ main {
     justify-content: right;
     margin-right: 5%;
 }
-.main-left {
+main {
+    display: inline-flex;
+    flex-direction: row;
+    flex-flow: row wrap;
+    flex-wrap: wrap;
+    align-items: stretch;
+    height: 100%;
+    width: 100%;
+    font-size: 16px;
+    color: #160404;
+    margin-top: 20px;
+}
+.left {
     width: 10%;
 }
-.main-center {
+.center {
     display: inline-flex;
     flex-direction: column;
     width: 80%;
@@ -56,8 +56,7 @@ main {
     justify-content: center;
     display: block;
 }
-
-.main-right {
+.right {
     display: inline-flex;
     width: 10%;
 }
@@ -70,6 +69,18 @@ button {
     margin: 5px;
     justify-content: center;
 }
+footer {
+    display: inline-flex;
+    flex-direction: row;
+    flex-flow: row wrap;
+    flex-wrap: wrap;
+    align-items: stretch;
+    height: 100%;
+    width: 100%;
+    font-size: 16px;
+    color: #160404;
+    margin-top: 20px;
+}
 .hidden {
     display: none;
 }
@@ -78,5 +89,12 @@ button {
     color: white;
     margin: 5px;
     border-radius: 10px;
+}
+.lightgray {
+    background: lightgray;
+}
+.border-top {
+    border-top: 3px solid lightgray;
+    padding-top: 5px;
 }
 
