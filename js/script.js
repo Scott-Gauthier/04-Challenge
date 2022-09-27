@@ -12,21 +12,19 @@ var result = document.querySelector("#result");
 var codepart = document.querySelector("#codepart");
 var timedisplay = document.getElementById("timedisplay");
 
-//variables need to get out of global and into local scope
+//variables needed to store game play
 var answer = 0;
 var secondsLeft = 120;
-var gameplaystatus = "start";
-var randomquestionarray = [];
 var playcount = -1;
-var finalscore = 0;
 
 //function to create an array of random numbers for the random number of questions
 function randomquestionselected() {
+    var randomquestionarray = [];
     while (randomquestionarray.length < 5) {
         var randomnumber = Math.floor(Math.random() * 5);
         if(randomquestionarray.indexOf(randomnumber) === -1) randomquestionarray.push(randomnumber);
     }
-    
+    return randomquestionarray;
 }
 //function to start the timer
 function setTime() {
@@ -38,6 +36,7 @@ function setTime() {
     if(secondsLeft < 1) {
         // Stops execution of action at set interval
         clearInterval(timerInterval);
+        gamePlay();
     }
     }, 1000);
 }
@@ -58,6 +57,7 @@ document.querySelector("#btn1").addEventListener("click", function(event) {
     } else {
         result.textContent = "Wrong"
         timedisplay.textContent = secondsLeft - 10;
+        secondsLeft = secondsLeft - 10;
     }
     result.setAttribute("class", "border-top");
     gamePlay();
@@ -69,6 +69,7 @@ document.querySelector("#btn2").addEventListener("click", function(event) {
     } else {
         result.textContent = "Wrong"
         timedisplay.textContent = secondsLeft - 10;
+        secondsLeft = secondsLeft - 10;
     }
     result.setAttribute("class", "border-top");
     gamePlay();
@@ -80,6 +81,7 @@ document.querySelector("#btn3").addEventListener("click", function(event) {
     } else {
         result.textContent = "Wrong"
         timedisplay.textContent = secondsLeft - 10;
+        secondsLeft = secondsLeft - 10;
     }
     result.setAttribute("class", "border-top");
     gamePlay();
@@ -91,6 +93,7 @@ document.querySelector("#btn4").addEventListener("click", function(event) {
     } else {
         result.textContent = "Wrong"
         timedisplay.textContent = secondsLeft - 10;
+        secondsLeft = secondsLeft - 10;
     }
     result.setAttribute("class", "border-top");
     gamePlay();
@@ -113,10 +116,12 @@ document.querySelector("#btnSubmit").addEventListener("click", function(event) {
 
 //this is what runs the game.
 function gamePlay(){
+    var finalscore = 0;
     playcount++;
-    randomquestionselected();
+    let randomquestionarray = randomquestionselected();
     if (playcount + 1 <= randomquestionarray.length && secondsLeft > 0) {
 
+        //diplay buttons and text with correct text
         title.textContent = randomquestionlist[randomquestionarray[playcount]][0];
         codepart.textContent = randomquestionlist[randomquestionarray[playcount]][1];
         btn1.setAttribute("class", "");
@@ -128,11 +133,11 @@ function gamePlay(){
         btn4.setAttribute("class", "");
         btn4.textContent = randomquestionlist[randomquestionarray[playcount]][5];
 
-        console.log(randomquestionarray[playcount]);
-
+        //set global variable so clicking a button can compare the answer
         answer = randomquestionlist[randomquestionarray[playcount]][6];
-        console.log(answer);
+
     } else {
+        //set the dom after game play ends.
         finalscore = secondsLeft;
         randomquestionarray = [];
         endplay.setAttribute("class", "");
@@ -143,7 +148,5 @@ function gamePlay(){
         btn2.setAttribute("class", "hidden");
         btn3.setAttribute("class", "hidden");
         btn4.setAttribute("class", "hidden");
-
     }
 }
-//   btnsave.setAttribute("id", "btn1");
