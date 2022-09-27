@@ -13,6 +13,7 @@ var codepart = document.querySelector("#codepart");
 var timedisplay = document.getElementById("timedisplay");
 
 //variables needed to store game play
+var finalscore = 0;
 var answer = 0;
 var secondsLeft = 120;
 var playcount = -1;
@@ -116,7 +117,6 @@ document.querySelector("#btnSubmit").addEventListener("click", function(event) {
 
 //this is what runs the game.
 function gamePlay(){
-    var finalscore = 0;
     playcount++;
     let randomquestionarray = randomquestionselected();
     if (playcount + 1 <= randomquestionarray.length && secondsLeft > 0) {
